@@ -5,6 +5,7 @@
   "dependencies": {
     "compute-cluster": "0.0.6",
     "convict": "0.0.6",
+    "cjson": "0.0.6",
     "express": "2.5.9",
     "jwcrypto": "0.2.2",
     "optimist": "0.3.4"
@@ -16,7 +17,7 @@
     "mocha": "1.0.3"
   },
   "scripts": {
-    "start": "node webserver.js",
+    "start": "node bin/keysigner",
     "test": "mocha --globals msg -R spec tests.js"
   }
 }
