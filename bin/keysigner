@@ -10,9 +10,8 @@ if (process.argv[1] === __filename) {
   server.listen(config.get('port'));
 } else {
   module.exports = function(cb) {
-    server.listen(0, function(err) {
+    server.listen(config.get('port'), function(err) {
       cb(err, server.address().port);
     });
   }
 }
-
