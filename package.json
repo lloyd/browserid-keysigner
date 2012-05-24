@@ -1,0 +1,19 @@
+{
+  "name": "browserid-keysigner",
+  "description": "A process that signs keys as described in the BrowserID protocol - for use in your projects",
+  "version": "0.0.1",
+  "dependencies": {
+    "express": "2.5.0",
+    "jwcrypto": "*"
+  },
+  "optionalDependencies": {
+  },
+  "devDependencies": {
+    "should": "0.6.3",
+    "mocha": "1.0.3"
+  },
+  "scripts": {
+    "start": "node webserver.js",
+    "test": "mocha --globals msg -R spec tests.js"
+  }
+}
