@@ -1,9 +1,43 @@
 #!/usr/bin/env node
 
-var config = require('../lib/config.js');
+var express = require('express'),
+     config = require('../lib/config.js');
 
-var server = require('express').createServer();
+var server = express.createServer(
+  express.bodyParser()
+);
 
+
+
+server.post('/cert_key', function(req, res) {
+  // validate optional 'duration' parameter
+  if (!req.body.duration) {
+    req.body.duration = config.get('certificate_validity_ms');
+  } else if (typeof req.body.duration !== 'number') {
+    return res.json({
+      success: false,
+      reason: 'duration argument must be a number when present'
+    }, 400);
+  }
+
+  // validate required 'pubkey' parameter
+  if (typeof req.body.pubkey != 'string') {
+    return res.json({
+      success: false,
+      reason: 'pubkey argument is required and must be a string'
+    }, 400);
+  }
+
+  // validate required 'email' parameter
+  if (typeof req.body.email != 'string') {
+    return res.json({
+      success: false,
+      reason: 'email argument is required and must be a string'
+    }, 400);
+  }
+
+  res.send(501);
+});
 
 // handle starting from the command line or the test harness
 if (process.argv[1] === __filename) {
