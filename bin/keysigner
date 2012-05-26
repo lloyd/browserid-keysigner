@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+require('../lib/logging-config.js');
+
 var express = require('express'),
      config = require('../lib/config.js'),
     certify = require('../lib/certify.js');
