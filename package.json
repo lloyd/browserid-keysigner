@@ -19,6 +19,6 @@
   },
   "scripts": {
     "start": "node bin/keysigner",
-    "test": "mocha --globals msg -R spec tests.js"
+    "test": "mocha -R spec tests.js"
   }
 }
