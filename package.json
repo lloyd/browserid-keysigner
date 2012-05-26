@@ -3,12 +3,13 @@
   "description": "A process that signs keys as described in the BrowserID protocol - for use in your projects",
   "version": "0.0.1",
   "dependencies": {
-    "compute-cluster": "0.0.6",
+    "compute-cluster": "0.0.7",
     "convict": "0.0.6",
     "cjson": "0.0.6",
     "express": "2.5.9",
     "jwcrypto": "0.2.2",
-    "optimist": "0.3.4"
+    "optimist": "0.3.4",
+    "winston": "0.5.11"
   },
   "optionalDependencies": {
   },

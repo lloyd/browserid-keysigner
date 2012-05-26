@@ -1,5 +1,6 @@
 process.env['NODE_ENV'] = 'test'; // set env to testing so we can skip logging, etc.
 process.env['PORT'] = '0'; // for testing bind ephemeral ports
+process.env['HOSTNAME'] = '127.0.0.1';
 
 const
 should = require('should'),
@@ -68,8 +69,14 @@ describe('key certification', function() {
       email: 'lloyd@example.com'
     }, function(res) {
       (res.statusCode).should.equal(200);
-      // XXX: more thorough testing of response required
-      done();
+      var body = "";
+      res.on('data', function(chunk) { body += chunk; });
+      res.on('end', function() {
+        body = JSON.parse(body);
+        body.success.should.equal(true);
+
+        done();
+      });
     });
   });
 

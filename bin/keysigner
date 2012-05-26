@@ -38,7 +38,8 @@ server.post('/cert_key', function(req, res) {
   certify({
     email: req.body.email,
     pubkey: req.body.pubkey,
-    duration: req.body.duration
+    duration: req.body.duration,
+    hostname: config.get('hostname')
   }, function(err, certificate) {
     var ro = { };
     if (err) {
