@@ -1,13 +1,12 @@
 #!/usr/bin/env node
 
 var express = require('express'),
-     config = require('../lib/config.js');
+     config = require('../lib/config.js'),
+    certify = require('../lib/certify.js');
 
 var server = express.createServer(
   express.bodyParser()
 );
-
-
 
 server.post('/cert_key', function(req, res) {
   // validate optional 'duration' parameter
@@ -36,7 +35,22 @@ server.post('/cert_key', function(req, res) {
     }, 400);
   }
 
-  res.send(501);
+  certify({
+    email: req.body.email,
+    pubkey: req.body.pubkey,
+    duration: req.body.duration
+  }, function(err, certificate) {
+    var ro = { };
+    if (err) {
+      ro.success = false;
+      ro.reason = err.toString();
+    } else {
+      ro.success = true;
+      ro.certificate = certificate;
+    }
+
+    res.json(ro, ro.success ? 200 : 400);
+  });
 });
 
 // handle starting from the command line or the test harness
