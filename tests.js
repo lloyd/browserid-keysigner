@@ -5,8 +5,9 @@ process.env['HOSTNAME'] = '127.0.0.1';
 const
 should = require('should'),
 http = require('http'),
-server = require('./bin/keysigner'),
-jwcrypto = require('jwcrypto');
+jwcrypto = require('jwcrypto'),
+fs = require('fs'),
+temp = require('temp');
 
 // cause RSA and DSA algorithms to be loaded
 // (Dear @benadida.  This API sucks.  Thanks, @lloyd)
@@ -34,11 +35,33 @@ function doRequest(args, cb) {
 
 var serverPort = -1;
 
+var server;
+
+describe('ephemeral keys', function() {
+  it('should generate properly', function(done) {
+    jwcrypto.generateKeypair({algorithm: "DS", keysize: 256}, function(err, keyPair) {
+      (!!err).should.be.false;
+      var pubkey_file = temp.openSync();
+      process.env['PUB_KEY_PATH'] = pubkey_file.path;
+      fs.writeSync(pubkey_file.fd, keyPair.publicKey.serialize());
+      fs.closeSync(pubkey_file.fd);
+      var privkey_file = temp.openSync();
+      process.env['PRIV_KEY_PATH'] = privkey_file.path;
+      fs.writeSync(privkey_file.fd, keyPair.secretKey.serialize());
+      fs.closeSync(privkey_file.fd);
+      done();
+    });
+  });
+});
+
+
 describe('the server', function() {
   it('should start up', function(done) {
+    server = require('./bin/keysigner');    
+
     server(function(err, port) {
       should.not.exist(err);
-      (port).should.be.ok
+      (port).should.be.ok;
       serverPort = port;
       done();
     });

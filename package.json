@@ -9,6 +9,7 @@
     "express": "2.5.9",
     "jwcrypto": "0.2.2",
     "optimist": "0.3.4",
+    "temp": "0.4.0",
     "winston": "0.5.11"
   },
   "optionalDependencies": {
@@ -19,6 +20,6 @@
   },
   "scripts": {
     "start": "node bin/keysigner",
-    "test": "mocha -R spec tests.js"
+    "test": "mocha --globals JSV,initializer -R spec tests.js"
   }
 }
