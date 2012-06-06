@@ -20,6 +20,11 @@ or
 
     git clone git://github.com/mozilla/browserid-certifier.git
 
+You must install the dependencies:
+
+    cd browserid-certifier
+    npm install
+
 You must create a config file. Example ``config/local.json``
 
     {
@@ -29,6 +34,24 @@ You must create a config file. Example ``config/local.json``
       "pub_key_path": "var/key.publickey",
       "priv_key_path": "var/key.secretkey"
     }
+
+Generating the Keypar
+---------------------
+Both your IdP service and the Certifier must share a public key.
+The Certifier, requires both a private and public keypair.
+
+Do the following:
+
+    cd var/
+    ../node_modules/.bin/generate-keypair
+    ls
+    cd var/
+
+You should now see a ``key.publickey`` and ``key.secretkey``
+in the directory. This matches your local.json config.
+
+You'll also want to import or re-use this ``key.publickey`` in
+your IdP's ``/.well-known/browserid`` file.
 
 Running Certifier
 -----------------
