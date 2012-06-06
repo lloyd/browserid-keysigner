@@ -1,6 +1,6 @@
 {
-  "name": "browserid-keysigner",
-  "description": "A process that signs keys as described in the BrowserID protocol - for use in your projects",
+  "name": "browserid-certifier",
+  "description": "A process that creates user certificates described in the BrowserID protocol - for use in your projects",
   "version": "0.0.1",
   "dependencies": {
     "compute-cluster": "0.0.7",
@@ -19,7 +19,7 @@
     "mocha": "1.0.3"
   },
   "scripts": {
-    "start": "node bin/keysigner",
+    "start": "node bin/certifier",
     "test": "mocha --globals JSV,initializer -R spec tests.js"
   }
 }
