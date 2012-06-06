@@ -12,7 +12,13 @@ A Work In Progress.
 Installation
 ------------
 
+Either npm or git should work:
+
     npm install git@github.com:mozilla/browserid-bigtent.git
+
+or
+
+    git clone git://github.com/mozilla/browserid-certifier.git
 
 You must create a config file. Example ``config/local.json``
 

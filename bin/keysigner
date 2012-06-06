@@ -2,9 +2,11 @@
 
 require('../lib/logging-config.js');
 
-var express = require('express'),
-     config = require('../lib/config.js'),
-    certify = require('../lib/certify.js');
+const 
+express = require('express'),
+config = require('../lib/config.js'),
+certify = require('../lib/certify.js'),
+keys = require('../lib/keys');
 
 var server = express.createServer(
   express.bodyParser()
@@ -53,6 +55,15 @@ server.post('/cert_key', function(req, res) {
     }
 
     res.json(ro, ro.success ? 200 : 400);
+  });
+});
+
+// Ops
+server.get('/__heartbeat__', function (req, res) { res.send('ok')});
+server.get('/public-key', function (req, res) {
+  keys.pubkey(function (err, publicKey) {
+    res.contentType('application/json');
+    res.send(publicKey.serialize());
   });
 });
 
