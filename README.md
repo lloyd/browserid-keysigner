@@ -18,15 +18,15 @@ The Certifier webservice provides the following API:
 A request to /cert_key *must*
 * Be sent with the `Content-Type` of `application/json`
 * The POST message body should be a JSON formatted object which includes:
-** email - The email address for this certificate
-** duration - How long until the certificate expires, in seconds
-** pubkey - Object [compatible with JWT](https://github.com/mozilla/jwcrypto) public keys.
+  * email - The email address for this certificate
+  * duration - How long until the certificate expires, in seconds
+  * pubkey - Object [compatible with JWT](https://github.com/mozilla/jwcrypto) public keys.
 
 The response will be:
 * Sent with the `Content-Type` of `application/json`
 * A JSON formatted object with includes:
-** success - boolean indicating if the certificate was generated successfully
-** certificate - string - A certificate compatible with 
+  * success - boolean indicating if the certificate was generated successfully
+  * certificate - string - A certificate compatible with 
      `navigator.id.registerCertificate` from the [BrowserID Provisioning 
     Protocol](https://developer.mozilla.org/en/BrowserID/Guide_to_Implementing_a_Persona_IdP)
 
