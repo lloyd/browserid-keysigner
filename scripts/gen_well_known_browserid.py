@@ -18,13 +18,12 @@ import sys
 import getopt
 
 def gen_well_known(pubkey):
+    """ Output a BrowserID compatible well-known file. """
     rawkey = ''
     with open(pubkey) as pubkey_file:
-        rawkey = pubkey_file.read() #.replace('"', 'x')
+        rawkey = pubkey_file.read()
 
-    print(isinstance(rawkey, str))
-    #rawkey = json.load(pubkey)
-
+    # TODO: split on 999 is ugly
     temp = json.dumps({
         'public-key': 999,
         'authentication': '/browserid/sign_in.html',
@@ -34,6 +33,7 @@ def gen_well_known(pubkey):
     print(''.join([temp[0], rawkey, temp[1]]))
 
 def main():
+    """ This is a CLI app. """
     # parse command line options
     try:
         opts, args = getopt.getopt(sys.argv[1:], "h", ["help"])
@@ -43,13 +43,12 @@ def main():
         sys.exit(2)
 
     # process options
-    for o, a in opts:
-        if o in ("-h", "--help"):
+    for key, _ in opts:
+        if key in ("-h", "--help"):
             print __doc__
             sys.exit(0)
 
     # process arguments
-    print('args where')
     if not (len(args) == 1):
         print __doc__
         sys.exit(1)
