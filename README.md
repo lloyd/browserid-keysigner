@@ -74,6 +74,8 @@ in the directory. This matches your local.json config.
 You'll also want to import or re-use this ``key.publickey`` in
 your IdP's ``/.well-known/browserid`` file.
 
+    scripts/gen_well_known_browserid.py var/key.publickey > /some/path/www/.well-known/browserid
+
 Running Certifier
 -----------------
 
