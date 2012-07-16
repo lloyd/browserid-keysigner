@@ -52,7 +52,7 @@ server.post('/cert_key', function(req, res) {
     email: req.body.email,
     pubkey: req.body.pubkey,
     duration: req.body.duration,
-    hostname: config.get('hostname')
+    hostname: config.get('issuer_hostname')
   }, function(err, certificate) {
     var ro = { };
     if (err) {

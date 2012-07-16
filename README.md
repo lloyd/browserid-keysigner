@@ -50,7 +50,7 @@ You must create a config file. Example ``config/local.json``
 
     {
       "ip": "0.0.0.0",
-      "hostname": "dev.bigtent.mozilla.org",
+      "issuer_hostname": "dev.bigtent.mozilla.org",
       "port": 8080,
       "pub_key_path": "var/key.publickey",
       "priv_key_path": "var/key.secretkey"
