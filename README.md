@@ -63,6 +63,7 @@ The Certifier, requires both a private and public keypair.
 
 Do the following:
 
+    mkdir var
     cd var/
     ../node_modules/.bin/generate-keypair
     ls
