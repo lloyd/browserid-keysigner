@@ -26,9 +26,16 @@ The response will be:
 * Sent with the `Content-Type` of `application/json`
 * A JSON formatted object with includes:
   * success - boolean indicating if the certificate was generated successfully
-  * certificate - string - A certificate compatible with 
-     `navigator.id.registerCertificate` from the [BrowserID Provisioning 
+  * certificate - string - A certificate compatible with
+     `navigator.id.registerCertificate` from the [BrowserID Provisioning
     Protocol](https://developer.mozilla.org/en/BrowserID/Guide_to_Implementing_a_Persona_IdP)
+
+Dependencies
+------------
+
+* gmp.h - on Ubuntu this is the libgmp3-dev package
+* C++ compiler
+* make
 
 Installation
 ------------
