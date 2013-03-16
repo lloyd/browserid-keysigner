@@ -56,15 +56,23 @@ You must install the dependencies:
 You must create a config file. Example ``config/local.json``
 
     {
-      "ip": "0.0.0.0",
-      "issuer_hostname": "dev.bigtent.mozilla.org",
+      "ip": "127.0.0.1",
       "port": 8080,
+      "issuer_hostname": "dev.bigtent.mozilla.org",
       "pub_key_path": "var/key.publickey",
       "priv_key_path": "var/key.secretkey"
     }
 
-Generating the Keypair
-----------------------
+For maximum security, the above configuration makes the server
+only listen locally (on 127.0.0.1).
+
+If you need the certifier to be accessible over the network,
+consider changing to something else,
+or listen on every IP (with "0.0.0.0"), provided you protect it by other means.
+
+Generating the Keypar
+---------------------
+
 Both your IdP service and the Certifier must share a public key.
 The Certifier, requires both a private and public keypair.
 
