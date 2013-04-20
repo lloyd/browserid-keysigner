@@ -1,6 +1,6 @@
 # A Certifier Process for BrowserID
 
-[![Build Status](https://secure.travis-ci.org/lloyd/browserid-keysigner.png)](http://travis-ci.org/lloyd/browserid-keysigner)
+[![Build Status](https://secure.travis-ci.org/lloyd/browserid-certifier.png)](http://travis-ci.org/lloyd/browserid-certifier)
 
 This repository aims to build a process capable of signing certificates for
 BrowserID.  If you wanted to build a Primary Identity Authority with
