@@ -21,5 +21,8 @@
   "scripts": {
     "start": "node bin/certifier",
     "test": "mocha --globals JSV,initializer -R spec tests.js"
+  },
+  "engines": {
+    "node": ">= 0.8.0"
   }
 }
