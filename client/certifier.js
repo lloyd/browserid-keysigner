@@ -3,16 +3,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /* Module wraps certifier client access to ../lib/certify.js over http
- * to centralize e.g. data streaming. copied from
+ * to centralize e.g. data streaming. Copied from
  * browserid-bigtent/server/lib/certifier.js. */
 
 const
-config = require('./config'),
+// config = require('../config'),
 http = require('http'),
 https = require('https');
 
-var host = config.get('certifier_host'),
-port = config.get('certifier_port'),
+var host = '127.0.0.1', // config.get('certifier_host'),
+port = process.env['CERTIFIER_PORT' ] || 8080, //config.get('certifier_port'),
 scheme = port === 443 ? https : http;
 
 module.exports = function (pubkey, email, duration_s, cb) {
