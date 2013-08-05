@@ -17,7 +17,6 @@ require("jwcrypto/lib/algs/ds");
 // a little helper function to perform cert_key requests
 function doRequest(args, cb) {
   var body = JSON.stringify(args);
-
   var req = http.request({
     host: '127.0.0.1',
     port: serverPort,
@@ -63,6 +62,7 @@ describe('the server', function() {
       should.not.exist(err);
       (port).should.be.ok;
       serverPort = port;
+      process.env['CERTIFIER_PORT'] = port;
       done();
     });
   });
@@ -140,5 +140,18 @@ describe('key certification', function() {
       (res.statusCode).should.equal(400);
       done();
     });
+  });
+});
+
+describe('http client wrapping', function() {
+  it('should be accessible via client', function(done) {
+    var client = require('./client/certifier.js');
+    client(keyPair.publicKey.serialize(), 'me@me.com', 1000 * 1000,
+           function(err, res) {
+             if (err) {
+               throw new Error('here');
+             }
+             done();
+           });
   });
 });
