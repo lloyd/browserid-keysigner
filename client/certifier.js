@@ -7,13 +7,15 @@
  * browserid-bigtent/server/lib/certifier.js. */
 
 const
-// config = require('../config'),
+config = require('../lib/config.js'),
 http = require('http'),
 https = require('https');
 
-var host = '127.0.0.1', // config.get('certifier_host'),
-port = process.env['CERTIFIER_PORT' ] || 8080, //config.get('certifier_port'),
-scheme = port === 443 ? https : http;
+var host = config.get('ip'),
+    port = config.get('port'),
+    // I don't think we ever run a certifier over SSL,
+    // usually it is on the same boxen
+    scheme = port === 443 ? https : http;
 
 module.exports = function (pubkey, email, duration_s, cb) {
   var body = JSON.stringify({
