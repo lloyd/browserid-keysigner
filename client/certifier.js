@@ -6,52 +6,45 @@
  * to centralize e.g. data streaming. Copied from
  * browserid-bigtent/server/lib/certifier.js. */
 
-const
-config = require('../lib/config.js'),
-http = require('http'),
-https = require('https');
+module.exports = function(host, port) {
+  var scheme = port === 443 ? require('https') : require('http');
 
-var host = config.get('ip'),
-    port = config.get('port'),
-    // I don't think we ever run a certifier over SSL,
-    // usually it is on the same boxen
-    scheme = port === 443 ? https : http;
+  return function (pubkey, email, duration_s, cb) {
+    var body = JSON.stringify({
+      duration: duration_s,
+      pubkey: pubkey,
+      email: email
+    }),
+    req;
 
-module.exports = function (pubkey, email, duration_s, cb) {
-  var body = JSON.stringify({
-        duration: duration_s,
-        pubkey: pubkey,
-        email: email
-      }),
-      req;
-
-  req = scheme.request({
-    host: host,
-    port: port,
-    path: '/cert_key',
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Content-Length': body.length
-    }
-  }, function (res) {
-    var res_body = "";
-    if (res.statusCode >= 400) {
-      return cb('Error talking to certifier... code=' + res.statusCode + ' ');
-    } else {
-      res.on('data', function (chunk) {
-        res_body += chunk.toString('utf8');
-      });
-      res.on('end', function () {
-        cb(null, res_body);
-      });
-    }
-    return;
-  });
-  req.on('error', function (err) {
-    console.error("Ouch, certifier is down: ", err);
-    cb("certifier is down");
-  });
-  req.write(body);
-  req.end();
+    req = scheme.request({
+      host: host,
+      port: port,
+      path: '/cert_key',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': body.length
+      }
+    }, function (res) {
+      var res_body = "";
+      if (res.statusCode >= 400) {
+        return cb('Error talking to certifier... code=' + res.statusCode + ' ');
+      } else {
+        res.on('data', function (chunk) {
+          res_body += chunk.toString('utf8');
+        });
+        res.on('end', function () {
+          cb(null, res_body);
+        });
+      }
+      return;
+    });
+    req.on('error', function (err) {
+      console.error("Ouch, certifier is down: ", err);
+      cb("certifier is down");
+    });
+    req.write(body);
+    req.end();
+  };
 };
