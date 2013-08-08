@@ -149,7 +149,7 @@ describe('http client wrapping', function() {
     client(keyPair.publicKey.serialize(), 'me@me.com', 1000 * 1000,
            function(err, res) {
              if (err) {
-               throw new Error('here');
+               throw err;
              }
              done();
            });
