@@ -28,17 +28,16 @@ module.exports = function(host, port) {
       }
     }, function (res) {
       var res_body = "";
-      if (res.statusCode >= 400) {
-        return cb('Error talking to certifier... code=' + res.statusCode + ' ');
-      } else {
-        res.on('data', function (chunk) {
-          res_body += chunk.toString('utf8');
-        });
-        res.on('end', function () {
-          cb(null, res_body);
-        });
-      }
-      return;
+      res.on('data', function (chunk) {
+        res_body += chunk.toString('utf8');
+      });
+      res.on('end', function () {
+        if (res.statusCode >= 400) {
+          console.log("CS: " + host + ' | ' + port + ' ' + res_body);
+          return cb('Error talking to certifier... code=' + res.statusCode + ' ');
+        }
+        cb(null, res_body);
+      });
     });
     req.on('error', function (err) {
       console.error("Ouch, certifier is down: ", err);
