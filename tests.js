@@ -56,6 +56,7 @@ describe('ephemeral keys', function() {
 
 describe('the server', function() {
   it('should start up', function(done) {
+    process.env['CERTIFIER_PORT'] = 0;
     server = require('./bin/certifier');
 
     server(function(err, port) {
@@ -145,7 +146,7 @@ describe('key certification', function() {
 
 describe('http client wrapping', function() {
   it('should be accessible via client', function(done) {
-    var client = require('./client/certifier.js');
+    var client = require('./client/certifier.js')('127.0.0.1', process.env['CERTIFIER_PORT']);
     client(keyPair.publicKey.serialize(), 'me@me.com', 1000 * 1000,
            function(err, res) {
              if (err) {
