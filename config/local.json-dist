@@ -1,0 +1,7 @@
+{
+  "ip": "127.0.0.1",
+  "port": 8080,
+  "issuer_hostname": "dev.bigtent.mozilla.org",
+  "pub_key_path": "var/key.publickey",
+  "priv_key_path": "var/key.secretkey"
+}

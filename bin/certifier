@@ -1,10 +1,21 @@
 #!/usr/bin/env node
 
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+const path = require('path');
+
+// ./ is our current working directory
+process.chdir(path.dirname(__dirname));
+
 require('../lib/logging-config.js');
 
-var express = require('express'),
-     config = require('../lib/config.js'),
-    certify = require('../lib/certify.js');
+const
+express = require('express'),
+config = require('../lib/config.js'),
+certify = require('../lib/cert-compute.js'),
+keys = require('../lib/keys');
 
 var server = express.createServer(
   express.bodyParser()
@@ -12,9 +23,9 @@ var server = express.createServer(
 
 server.post('/cert_key', function(req, res) {
   // validate optional 'duration' parameter
-  if (!req.body.duration) {
-    req.body.duration = config.get('certificate_validity_ms');
-  } else if (typeof req.body.duration !== 'number') {
+  var duration = req.body.duration || config.get('certificate_validity_ms');
+  duration = parseInt(duration, 10); // accept numerical strings
+  if (isNaN(duration)) {
     return res.json({
       success: false,
       reason: 'duration argument must be a number when present'
@@ -41,7 +52,7 @@ server.post('/cert_key', function(req, res) {
     email: req.body.email,
     pubkey: req.body.pubkey,
     duration: req.body.duration,
-    hostname: config.get('hostname')
+    hostname: config.get('issuer_hostname')
   }, function(err, certificate) {
     var ro = { };
     if (err) {
@@ -56,9 +67,20 @@ server.post('/cert_key', function(req, res) {
   });
 });
 
+// Ops
+server.get('/__heartbeat__', function (req, res) { res.send('ok certifier')});
+server.get('/public-key', function (req, res) {
+  keys.pubkey(function (err, publicKey) {
+    res.contentType('application/json');
+    res.send(publicKey.serialize());
+  });
+});
+
 // handle starting from the command line or the test harness
-if (process.argv[1] === __filename) {
-  server.listen(config.get('port'));
+if (path.basename(process.argv[1]) === path.basename(__filename)) {
+  server.listen(config.get('port'), config.get('ip'), function(err) {
+    console.log('Certifier started, listening at', config.get('ip'), 'on', server.address().port);
+  });
 } else {
   module.exports = function(cb) {
     server.listen(config.get('port'), function(err) {
